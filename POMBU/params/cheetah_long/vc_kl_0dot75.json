@@ -1,0 +1,136 @@
+{   
+    "running_kwargs": {
+        "algo": "POMBU",
+        "seed": "random",
+        "env_name": "half_cheetah_noisy",
+        "exp_name": "half_cheetah_noisy",
+        "subexp_name": "ours",
+        "parent_dir": "../aaai_data",
+        "report_return_during_iteration":false,
+        "POMBU":{
+            "n_sample": 4,
+            "n_update": 2,
+            "n_iter": 50,
+            "save_every": 100,
+            "ex_method": "uncertainty_random_weight",
+
+            "ex_noise": 1,
+            "ex_keep": false,
+            "ex_alpha": 10,
+            "ex_entropy": 0,
+            "ex_width": 50,
+            "ex_cliprange": "lambda i: 0.15",
+            "ex_lr": "lambda i: 1e-4 * (110 - i) / 110",
+            "ex_iter_per_update": 1,
+
+            "ex_n_update": 4,
+            "ex_alpha_std": 1,
+
+            "op_method": "variance_constrain_kl", 
+            "comments_on_op_method": "op_method must in {p_improve_ppo, p_improve_ppo2(_kl/_ratio)，variance_constrain_(_kl/ratio)}",
+            "op_alpha": 0.75,
+            "op_alpha_clip": [0.1, 0.8],
+
+            "op_times": 1,
+
+            "op_ratio_feasible_interval": [0.01, 0.08],
+            "op_kl_feasible_interval": [1e-3, 8e-3],
+
+            "op_entropy": 0,
+            "op_width": 50,
+            "load_step": 0,
+
+            "reinitialize_std_before": 0
+        }
+    },
+    "model_type":"DE",
+    "model_kwargs": {
+        "norm_state": true,
+        "norm_change": true,
+        "norm_action": true,
+        "network_kwargs": {
+            "hidden_layers": [512, 512],
+            "nonlinearities": "[nn.relu, nn.relu]",
+            "decays": [2e-5, 2.5e-5, 3e-5],
+            "norm": "wn",
+            "k_model": 5
+        },
+        "optimization_kwargs": {
+            "regularization": "nn.l2_loss",
+            "reg_coefficient": 0,
+            "re_learning_rate": "lambda f: 2e-4", 
+            "learning_rate": "lambda f: 2e-4",
+            "max_grad": 0.5
+        },
+        "train_kwargs": {
+            "train_valid": "trajectory",
+            "reinitialize_every": 10,
+            "valid_ratio": 0.2,
+            "batch_train": 1000,
+            "batch_valid": 20000,
+            "re_validate_every": 5,
+            "validate_every": 5,
+            "re_threshold": 25,
+            "threshold": 25,
+            "max_iterations":10000,
+            "log_loss": false,
+            "load_backup": true,
+
+            "delta": "lambda f: 20 / f",
+            "n_virtual": 6,
+            "min_step": -1
+            }
+        },
+    "rollout_kwargs": {
+            "add_index": false,
+            "norm_state": true,
+            "norm_action": false,
+            "norm_reward": true,
+            "clip_reward": 5,
+            "lambda": 1,
+            "gamma": 0.99,
+            "method": "MBUI",
+            "print_trs_inf": false,
+            "log_trs_every": -1,
+            "log_num": 2
+            },
+    "policy_kwargs": {
+            "network_kwargs": {
+                "num_layers":2,
+                "num_hidden":64, 
+                "activation": "nn.tanh"
+            },
+            "optimization_kwargs": {
+                "learning_rate": "lambda i,j: 1e-4 * (110 - i) / 110", 
+                "cliprange": "lambda i,j: 0.15",
+                "max_grad": 0.5
+            },
+            "train_kwargs": {
+                "minibatch_size": 1250,
+                "num_epochs": 10,
+                "log_every": 0,
+                "norm_adv": true,
+                "clip_adv": 5, 
+                "clip_U": 5 
+            }
+        },
+    "UV_kwargs": {
+            "network_kwargs": {
+                "hidden_layers": [64, 64],
+                "nonlinearities": "[nn.tanh, nn.tanh]",
+                "decays": [0, 0, 0],
+                "norm": "no",
+                "u_network": "copy"
+            },
+            "optimization_kwargs": {
+                "learning_rate": "lambda i,j: 1e-4 * (110 - i) / 110", 
+                "U_coefficient": 0.5,
+                "max_grad": 0.5
+            },
+            "train_kwargs": {
+                "minibatch_size": 1250,
+                "num_epochs": 10,
+                "log_every": -1
+            }
+        }
+    }
