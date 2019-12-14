@@ -1,8 +1,3 @@
-if __name__ == "__main__":
-    import sys
-    sys.path.append("/home/qizhou/nips2019/rl_temp")
-    sys.path.insert(0,"/home/qizhou/libs/gym")
-    
 from . import DynamicsModel
 from POMBU.utils import dict_update
 from POMBU.tf_utils.nn import mlp

@@ -1,12 +1,3 @@
-if __name__ == "__main__":
-    import sys
-    sys.path.insert(0,"/home/qizhou/libs/gym")
-    sys.path.insert(0,"/home/qizhou/aaai2019")
-    sys.path.insert(0,"/home/qzhou/aaai2019")
-    sys.path.insert(0,"/home/qizhou/aaai2019/POMBU")
-    sys.path.insert(0,"/home/qzhou/aaai2019/POMBU")
-    print(sys.path)
-
 import argparse
 import numpy as np
 import os
